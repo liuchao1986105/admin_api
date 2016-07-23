@@ -1,0 +1,21 @@
+{
+  "apps": [
+    {
+      "name"        : "server-api",
+      "script"      : "./dist/app.js",
+      // "instances": 1,
+      // "max_memory_restart": "512M",
+      // "merge_logs": true,
+      "log_date_format"  : "YYYY-MM-DD HH:mm Z",
+      "out_file"   : "./logs/pm2-server-out.log",
+      "error_file" : "./logs/pm2-server-err.log",
+      "pid_file"   : "./logs/pm2-server-api.pid",
+      "ignoreWatch" : ["[\\/\\\\]\\./", "node_modules"],
+      "watch"       : "false",
+      "exec_mode"  : "fork_mode", //cluster_mode
+      "env": {
+        "NODE_ENV": "production"
+      }
+    }
+  ]
+}
