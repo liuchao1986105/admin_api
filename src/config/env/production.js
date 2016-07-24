@@ -3,7 +3,7 @@
 module.exports = {
   // 生产环境mongodb配置
   mongo: {
-    uri: 'mongodb://localhost/server-dev',
+    uri: 'mongodb://localhost/mooTasksDB',
     // "mongodb://capricorn:EBN5dKcHpGzqg4i9J9Gw8O@101.200.134.85:32772/wddb",
     options: {
       db: {

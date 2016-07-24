@@ -38,4 +38,4 @@ TopicSchema.set('toJSON', {
     return ret;
   },
 });
-export const Topic = mongoose.model('Topic', TopicSchema);
+//export const Topic = mongoose.model('Topic', TopicSchema);

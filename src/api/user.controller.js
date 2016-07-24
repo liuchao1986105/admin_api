@@ -44,7 +44,7 @@ export default class UserController {
       errorMsg = "邮箱地址不合法";
     }
 
-    let user = await User.findOneAsync({name:name});
+    let user = await User.findOneAsync({username:name});
     if ( user){
       errorMsg = "该用户名已经存在";
     }
@@ -59,10 +59,10 @@ export default class UserController {
     }
 
     const newUser = new User();    //var newUser = new User(req.body);
-    newUser.name = name;
+    newUser.username = name;
     newUser.email = email;
-    newUser.password = password;
-    newUser.role = 'user';
+    newUser.pwd = password;
+    //newUser.role = 'user';
 
     user = await newUser.saveAsync();
     const token = auth.signToken(user._id);
@@ -94,10 +94,10 @@ export default class UserController {
     }
 
     let user = await User.findByIdAsync(req.params.user_id);
-    user.name = name;
+    user.username = name;
     user.email = email;
     if (req.body.password) {
-      user.password = validator.trim(req.body.password);
+      user.pwd = validator.trim(req.body.password);
     }
     if (req.body.role) {
       user.role = req.body.role;

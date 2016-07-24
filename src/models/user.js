@@ -13,10 +13,10 @@ export const Values = {
 };
 
 const UserSchema = new mongoose.Schema({
-  name: { type: String, unique: true, required: true, index: true },
-  hashedPassword: {type: String, required: true},
+  username: { type: String,  required: true, index: true },
+  password: {type: String, required: true},
   email: {type: String, lowercase: true, required: true},
-  headimgurl: { type: String },
+/*  headimgurl: { type: String },
   sex: { type: String, default: '' },
   city: { type: String },
   province: { type: String },
@@ -26,10 +26,10 @@ const UserSchema = new mongoose.Schema({
   collectedTopics: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Topic'}],
   collectedArticles: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Article'}],
   score: { type: Number, default: 0 },
-  role: { type: String, default: 'user'},
+  role: { type: String, default: 'user'},*/
   salt: { type: String },
   active: { type: Boolean, default: true },
-  github: {
+/*  github: {
     id: String,
     token: String,
     email: String,
@@ -46,7 +46,7 @@ const UserSchema = new mongoose.Schema({
     token: String,
     email: String,
     name: String,
-  },
+  },*/
 });
 
 class UserModel {
@@ -58,19 +58,19 @@ class UserModel {
     return headimgurl;
   }
 
-  get password() {
+  get pwd() {
     return this._password;
   }
 
-  set password(password) {
+  set pwd(password) {
     this._password = password;
     this.salt = this.makeSalt();
-    this.hashedPassword = this.encryptPassword(password);
+    this.password = this.encryptPassword(password);
   }
 
   get userInfo() {
     return {
-      'name': this.name,
+      'name': this.username,
       'role': this.role,
       'email': this.email,
       'headimgurl': this.imgUrl,
@@ -98,7 +98,7 @@ class UserModel {
 
   // 验证用户密码
   authenticate(plainText) {
-    return this.encryptPassword(plainText) === this.hashedPassword;
+    return this.encryptPassword(plainText) === this.password;
   }
 
   // 生成密码
@@ -110,10 +110,10 @@ class UserModel {
 }
 
 UserSchema
-  .path('name')
+  .path('username')
   .validate(function(value, respond) {
     var self = this;
-    this.constructor.findOne({name: value}, function(err, user) {
+    this.constructor.findOne({username: value}, function(err, user) {
       if(err) throw err;
       if(user) {
         if(self.id === user.id) return respond(true);
@@ -126,11 +126,11 @@ UserSchema
 UserSchema.plugin(loadClass, UserModel);
 UserSchema.plugin(baseModel);
 UserSchema.plugin(mongoosePaginate);
-UserSchema.plugin(timestamps, {
+/*UserSchema.plugin(timestamps, {
   createdAt: 'created_at',
   updatedAt: 'updated_at',
 });
-
+*/
 UserSchema.set('toJSON', {
   transform: (doc, ret, options) => {
     ret.headimgurl = doc.imgUrl;
